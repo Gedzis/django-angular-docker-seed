@@ -115,6 +115,20 @@ module.exports = function(grunt) {
         plusplus: true,
         globals: ['$', 'jQuery', 'angular', 'require']
       }
+    },
+
+    //Notifications
+    notify: {
+      templates: {
+        options: {
+          message: 'Templates compilation complete', //required
+        }
+      },
+      js: {
+        options: {
+          message: 'JavaScript compilation complete', //required
+        }
+      }
     }
   });
 
@@ -128,10 +142,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-notify');
 
-  grunt.task.registerTask('templates', ['jade:compile', 'ngtemplates:myapp', 'clean:templates']);
+  grunt.task.registerTask('templates', ['jade:compile', 'ngtemplates:myapp', 'clean:templates', 'notify:templates']);
   grunt.task.registerTask('javascript', ['browserify:dist', 'exorcise']);
 
-  grunt.task.registerTask('build', ['clean:dist', 'copy:bower', 'bower_concat:all', 'templates', 'stylus:compile', 'javascript']);
+  grunt.task.registerTask('build', ['clean:dist', 'copy:bower', 'bower_concat:all', 'templates', 'stylus:compile', 'javascript', 'notify:js']);
   grunt.task.registerTask('develop', ['build', 'watch']);
 };
